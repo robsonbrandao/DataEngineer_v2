@@ -1,0 +1,811 @@
+id,subreddit,kind,title,score,selftext,sentimento
+t3_1jc8qu4,Python,t3,Sunday Daily Thread: What's everyone working on this week?,3,"# Weekly Thread: What's Everyone Working On This Week? 🛠️
+
+Hello /r/Python! It's time to share what you've been working on! Whether it's a work-in-progress, a completed masterpiece, or just a rough idea, let us know what you're up to!
+
+## How it Works:
+
+1. **Show &amp; Tell**: Share your current projects, completed works, or future ideas.
+2. **Discuss**: Get feedback, find collaborators, or just chat about your project.
+3. **Inspire**: Your project might inspire someone else, just as you might get inspired here.
+
+## Guidelines:
+
+* Feel free to include as many details as you'd like. Code snippets, screenshots, and links are all welcome.
+* Whether it's your job, your hobby, or your passion project, all Python-related work is welcome here.
+
+## Example Shares:
+
+1. **Machine Learning Model**: Working on a ML model to predict stock prices. Just cracked a 90% accuracy rate!
+2. **Web Scraping**: Built a script to scrape and analyze news articles. It's helped me understand media bias better.
+3. **Automation**: Automated my home lighting with Python and Raspberry Pi. My life has never been easier!
+
+Let's build and grow together! Share your journey and learn from others. Happy coding! 🌟",Positivo
+t3_1jfbrhk,Python,t3,"Thursday Daily Thread: Python Careers, Courses, and Furthering Education!",1,"# Weekly Thread: Professional Use, Jobs, and Education 🏢
+
+Welcome to this week's discussion on Python in the professional world! This is your spot to talk about job hunting, career growth, and educational resources in Python. Please note, this thread is **not for recruitment**.
+
+---
+
+## How it Works:
+
+1. **Career Talk**: Discuss using Python in your job, or the job market for Python roles.
+2. **Education Q&amp;A**: Ask or answer questions about Python courses, certifications, and educational resources.
+3. **Workplace Chat**: Share your experiences, challenges, or success stories about using Python professionally.
+
+---
+
+## Guidelines:
+
+- This thread is **not for recruitment**. For job postings, please see r/PythonJobs or the recruitment thread in the sidebar.
+- Keep discussions relevant to Python in the professional and educational context.
+  
+---
+
+## Example Topics:
+
+1. **Career Paths**: What kinds of roles are out there for Python developers?
+2. **Certifications**: Are Python certifications worth it?
+3. **Course Recommendations**: Any good advanced Python courses to recommend?
+4. **Workplace Tools**: What Python libraries are indispensable in your professional work?
+5. **Interview Tips**: What types of Python questions are commonly asked in interviews?
+
+---
+
+Let's help each other grow in our careers and education. Happy discussing! 🌟",Neutro
+t3_1jfpt7q,Python,t3,How to Use Async Agnostic Decorators in Python,47,"At Patreon, we use generators to apply decorators to both synchronous and asynchronous functions in Python. Here's how you can do the same:
+
+[https://www.patreon.com/posts/how-to-use-async-124658443](https://www.patreon.com/posts/how-to-use-async-124658443)
+
+What do you think of this approach?",Neutro
+t3_1jfuqab,Python,t3,"pnorm: A Simple, Explicit Way to Interact with Postgres",7,"GitHub: [https://github.com/alrudolph/pnorm](https://github.com/alrudolph/pnorm)
+
+# What My Project Does
+
+I built a small library for working with Postgres in Python.
+
+I don’t really like using ORMs and prefer writing raw SQL, but I find Psycopg a bit clunky by itself, especially when dealing with query results. So, this wraps Psycopg to make things a little nicer by marshalling data into Pydantic models.
+
+I’m also adding optional OpenTelemetry support to automatically track queries, with a bit of extra metadata if you want it. [example](https://github.com/alrudolph/pnorm/blob/main/example/main.py)
+
+I've been using this library personally for over a year and wanted to share it in case others find it useful. I know there are a lot of similar libraries out there, but most either lean towards being ORMs or don’t provide much typing support, and I think my solution fills in the gap.
+
+# Target Audience
+
+Anyone making Postgres queries in Python. This library is designed to make Psycopg easier to use while staying out of your way for anything else, making it applicable to a wide range of workloads.
+
+I personally use it in my FastAPI projects [here’s an example (same as above)](https://github.com/alrudolph/pnorm/blob/main/example/main.py).
+
+Right now, the library only supports Postgres.
+
+# Comparison
+
+**Orms**
+
+[SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy) is a very popular Python ORM library. [SQLModel](https://github.com/fastapi/sqlmodel) builds on SQLAlchemy with a Pydantic-based interface. I think ORMs are a bad abstraction, they make medium to complex SQL difficult (or even impossible) to express, and for simple queries, it's often easier to just write raw SQL. The real problem is that you still have to understand the SQL your ORM is generating, so it doesn’t truly abstract away complexity.
+
+Here's an example from the SQLModel README:
+
+    select(Hero).where(Hero.name == ""Spider-Boy"")
+
+And here's the equivalent using `pnorm`:
+
+    client.select(Hero, ""select * from heros where name = %(name)s"", {""name"": ""Spider-Boy""})
+
+`pnorm` is slightly more verbose for simple cases, but there's less ""mental model"" overhead. And when queries get more complex, `pnorm` scales better than SQLModel.
+
+**Non-Orms**
+
+Packages like [records](https://github.com/kennethreitz/records) and [databases](https://github.com/encode/databases) provide simple wrappers over databases, which is great. But they don’t provide typings.
+
+I rely heavily on static type analysis and type hints in my projects, and these libraries don’t provide a way to infer column names or return types from a query.
+
+**Psycopg**
+
+I think [Psycopg](https://www.psycopg.org/) is great, but there are a few things I found myself repeating a lot that `pnorm` cleans up:
+
+For example:
+
+* Setting `row_factory = dict_row` on every connection to get column names in query results.
+* Converting dictionaries to Pydantic models: it's an extra step every time, especially when handling lists or optional results.
+* Ensuring exactly one record is returned: `pnorm.client.get()` tries to fetch two rows to ensure the query returns exactly one result.
+
+# Usage
+
+Install:
+
+    pip install pnorm
+
+Setup a connection:
+
+    from pydantic import BaseModel
+    
+    from pnorm import AsyncPostgresClient, PostgresCredentials
+    
+    creds = PostgresCredentials(host="""", port=5432, user="""", password="""", dbname="""")
+    client = AsyncPostgresClient(creds)
+
+Get a record:
+
+    class User(BaseModel):
+        name: str
+        age: int
+    
+    # If we expect there to be exactly one ""john""
+    john = await client.get(User, ""select * from users where name = %(name)s"", {""name"": ""john""})
+    # john: User or throw exception
+    
+    john.name # has type hints from pydantic model
+
+If this sounds useful, feel free to check it out. I’d love any feedback or suggestions!",Positivo
+t3_1jfjmf3,Python,t3,Interactive Python Learning Series: From Numbers to Exceptions,24,"Hey Python folks,
+
+I wanted to share a project I've been working on, creating *interactive* Python tutorials — series of Python fundamentals notebooks in our [marimo-learn repository](https://github.com/marimo-team/learn).
+
+**What This Project Does:** We've built tutorials covering the Python journey from basics to more complex topics. The notebooks are reactive — change code in one place and see updates ripple through in real-time, which makes learning way more intuitive. The content covers Python fundamentals (data types, strings, collections) and builds up to functions, modules, and exception handling. What makes these different is that they're fully interactive and run natively in your browser (thanks to WASM &amp; Pyodide).
+
+**Target Audience:** Python learners and teachers who prefer hands-on experimentation over passive reading; devs who want to explore Python concepts through an interactive medium rather than static documentation.
+
+**Comparison to Alternatives:** Unlike static tutorials or videos, these notebooks combine explanation, code, and output in a reactive environment. When you modify code in one cell, all dependent cells automatically update, showing how concepts interconnect.
+
+**Source Code:** All notebooks are available at [/python folder](https://github.com/marimo-team/learn/tree/main/python), organized in an appropriate progression (in terms of topics).
+
+We're also looking for Python enthusiasts to *contribute* additional specialized tutorials. If you're interested, check out our [GitHub repository](https://github.com/marimo-team/learn) for more information.
+
+What other Python topics would you like to see covered in an interactive format?",Positivo
+t3_1jfk466,Python,t3,Playa PDF: A strong pdfminer successor,7,"Hi there fellas,
+
+I wanna intro you to a great library - not one of mine, but one which I feel deserves some love and stars.
+
+The library in questions is [PLAYA](https://github.com/dhdaines/playa) which stands for ""Parallel and/or LAzY Analyzer for PDF"".
+
+What is this?
+
+This library is similar in scope to pdfminer and its fork pdfminer.six - long-established libraries for manipulating and extracting data from PDF files. 
+
+It is partially based on pdfminer.six and includes code from it - but it substantially improves on it in multiple ways.
+
+1. It handles a broader range of PDFs and PDF issues, being very close to the (horrible) specification. For example, the author of the library (dhaines) has recently added an enormous test suite from PDF.js (one of the more ancient libraries in this space), which includes a whole gamut of weird PDFs it can handle. 
+2. It's much faster - well, as far as Python goes, but it is faster than the other Python libs by a factor of at least two, if not three, and not only when parallelizing. 
+3. complete metadata extraction - this part is what got me into this since I am integrating this with Kreuzberg now (a library of mine, which you are welcome to Google with ""Kreuzberg GitHub"") This is great, and there are no other alternatives I am familiar with (including in other languages other than Java probably) that have this level of metadata extraction.
+4. It uses modern and full-type hints and exports, proper data classes.
+
+So, I invite you all to look at that library and give Dhaines some love and stars!
+
+",Positivo
+t3_1jf3p1y,Python,t3,Is there something better than exceptions?,84,"Ok, let's say it's a follow-up on this 11-year-old post  
+[https://www.reddit.com/r/Python/comments/257x8f/honest\_question\_why\_are\_exceptions\_encouraged\_in/](https://www.reddit.com/r/Python/comments/257x8f/honest_question_why_are_exceptions_encouraged_in/)
+
+Disclaimer: I'm relatively more experienced with Rust than Python, so here's that. But I genuinely want to learn the best practices of Python.
+
+My background is a mental model of errors I have in mind.  
+There are two types of errors: environment response and programmer's mistake.  
+For example, parsing an input from an external source and getting the wrong data is the environment's response. You \*will\* get the wrong data, you should handle it.  
+Getting an n-th element from a list which doesn't have that many elements is \*probably\* a programmer's mistake, and because you can't account for every mistake, you should just let it crash.
+
+Now, if we take different programming languages, let's say C or Go, you have an error code situation for that.  
+In Go, if a function can return an error (environment response), it returns ""err, val"" and you're expected to handle the error with ""if err != nil"".  
+If it's a programmer's mistake, it just panics.  
+In C, it's complicated, but most stdlib functions return error code and you're expected to check if it's not zero.  
+And their handling of a programmer's mistake is usually Undefined Behaviour.
+
+But then, in Python, I only know one way to handle these. Exceptions.  
+Except Exceptions seems to mix these two into one bag, if a function raises an Exception because of ""environment response"", well, good luck with figuring this out. Or so it seems.
+
+And people say that we should just embrace exceptions, but not use them for control flow, but then we have StopIteration exception, which is ... I get why it's implemented the way it's implemented, but if it's not a using exceptions for control flow, I don't know what it is.
+
+Of course, there are things like dry-python/returns, but honestly, the moment I saw ""bind"" there, I closed the page. I like the beauty of functional programming, but not to that extent.
+
+For reference, in Rust (and maybe other non-LISP FP-inspired programming languages) there's Result type.  
+[https://doc.rust-lang.org/std/result/](https://doc.rust-lang.org/std/result/)  
+tl;dr  
+If a function might fail, it will return Result\[T, E\] where T is an expected value, E is value for error (usually, but not always a set of error codes). And the only way to get T is to handle an error in various ways, the simplest of which is just panicking on error.  
+If a function shouldn't normally fail, unless it's a programmer's mistake (for example nth element from a list), it will panic.
+
+Do people just live with exceptions or is there some hidden gem out there?
+
+UPD1: reposted from comments  
+One thing which is important to clarify: the fact that these errors can't be split into two types doesn't mean that all functions can be split into these two types.
+
+Let's say you're idk, storing a file from a user and then getting it back.  
+Usually, the operation of getting the file from file storage is an ""environmental"" response, but in this case, you expect it to be here and if it's not there, it's not s3 problem, it's just you messing up with filenames somewhere.
+
+UPD2:  
+BaseException errors like KeyboardInterrupt aren't \*usually\* intended to be handled (and definitely not raised) so I'm ignoring them for that topic",Neutro
+t3_1jf4ce2,Python,t3,Any good Python resume projects that AREN'T machine learning?,62,"I'm seeking my first internship and i wanna make a project that showcases my python skills. I tried to get into machine learning using Andrew Ng's course but i wasn't really enjoying it at all i don't think it's for me, but I might pick it up again in the future.
+
+So what are some good projects that recruiters/employers like to see? I won't be aiming for ML/data roles, at least for now
+
+  
+Edit: i have a couple fullstack apps with javascript, so im just tryna diversify my portfolio ",Neutro
+t3_1jfxnr9,Python,t3,"Janito, an open source code assistance",0,"It uses Claude's optimized tools for file editing and bash commands execution (most likely the same API that powers [Claude.AI](http://Claude.AI) .
+
+Simple system  prompts in order to minimize cost an reduce constrains in the model inference activity.
+
+Ability to adjust the model settings via profiles, and set the role eg. ""python developer"", ""web developer"" with role setting.
+
+Janito is in early stages of development, feedback is welcome.
+
+[joaompinto/janito: A Language-Driven Software Development Assistant powered by Claude AI](https://github.com/joaompinto/janito)",Neutro
+t3_1jf9ovo,Python,t3,A Feature-rich Flask Web Application Template,6,"**What My Project Does**
+
+I made a Flask starter template to save time setting up new projects. It includes:
+
+\- A blueprint-based structure for better organization
+
+\- GitHub Actions for testing &amp; lining
+
+\- Makefile and Poetry for managing the development workflow (testing, linting, database migrations, containerization, etc.)
+
+\- Comes with lots of useful Flask extensions already installed and ready to use (SQLAlchemy, Login, WTF, Admin, Caching, etc.)
+
+GitHub: [https://github.com/habedi/template-web-app-flask](https://github.com/habedi/template-web-app-flask)
+
+Let me know what you think!",Positivo
+t3_1jfy35s,Python,t3,"Do NOT Use Udemy, Please",0,"Udemy may seem great—you can get hundreds of free courses for the yearly price of one or two high-quality ones. But please don't fall into their trap.
+
+The service is horrible. I recently received a new MacBook under warranty since my old one broke (Thanks, Apple!). Needless to say, I lost all my data (including certificates). My Udemy Personal Plan expired about 2 months ago, and I completed 2 50+ hour courses on Python and Machine Learning respectively. Now, when I go to download them again, they are gone. I contacted customer support, and they say all your progress is gone, even if you reinstate your plan.
+
+Bottom line, unless your computer is immortal or you want to keep paying Udemy for the rest of your life, please don't use them.",Negativo
+t3_1jf1r1a,Python,t3,"AutoML , what are your thoughts about it wanted to learn more about the same",6,"Recently I found interesting libraries called autoML libraries now that I know that they have for a long time and require heavy gpus. 
+
+Are they actually used behind the scenes in companies or is autoML such as autosklearn is dead ?",Neutro
+t3_1jf8e5c,Python,t3,Satisfiability problem solver in pure Python,0,"I read that the satisfiability problem is NP-complete. So I decided to try to solve it in pure Python, and it is a weak success:
+
+https://izecksohn.com/pedro/python/sat/
+",Neutro
+t3_1je94cf,Python,t3,PySide6 + Nuitka is very impressive (some numbers and feedback inside),141,"In preparation for releasing a new version of [Flowkeeper](https://flowkeeper.org/) I decided to try replacing PyInstaller with Nuitka. My main complaint about PyInstaller was that I could never make it work with MS Defender, but that's a topic for another time.
+
+I've never complained about the size of the binaries that PyInstaller generated. Given that it had to bundle Python 3 and Qt 6, \~100MB looked reasonable. So you can imagine how surprised I was when instead of spitting out a usual 77MB for a standalone / portable Windows exe file it produced... a 39MB one! It is twice smaller, seemingly because Nuitka's genius C compiler / linker could shed unused Qt code so well.
+
+Flowkeeper is a Qt Widgets app, and apart from typical QtCore, QtGui and QtWidgets it uses QtMultimedia, QtChart, QtNetwork, QtWebSockets and some other modules from PySide6\_Addons. It also uses Fernet cryptography package, which in turn bundles hazmat. Finally, it includes a 10MB mp3 file, as well as \~2MB of images and fonts as resources. So **all of that** fits into a single self-contained 40MB exe file, which I find mighty impressive, especially if you start comparing it against Electron. Oh yes, and that's with the latest stable Python 3.13 and Qt 6.8.2.
+
+I was so impressed, I decided to see how far I can push it. I chopped network, audio and graphing features from Flowkeeper, so that it only used PySide6\_Essentials, and got rid of large binary resources like that mp3 file. As a result I got a fully functioning advanced Pomodoro timer with 90% of the ""full"" version features, in an **under 22MB** portable exe. When I run it, Task Manager only reports 40MB of RAM usage.
+
+And best of all (why I wanted to try Nuitka in the first place) -- those exe files only get 3 false positives on VirusTotal, instead of 11 for PyInstaller. MS Defender and McAfee don't recognize my program as malware anymore. But I'll need to write a separate post for that.
+
+Tl;dr -- Huge kudos to Nuitka team, which allows packaging non-trivial Python Qt6 applications in \~20MB Windows binaries. Beat that Electron!",Positivo
+t3_1jendxu,Python,t3,Run a local copy of IMDB,18,"Project allows you to run a copy of the [IMDB.com](http://IMDB.com) movie and tv show database on your computer. 
+
+[https://github.com/non-npc/IMDB-DB-Tools](https://github.com/non-npc/IMDB-DB-Tools)",Neutro
+t3_1jfk16j,Python,t3,"My discord bot crashes Idk why. I've been working on it 15 hours already, please.",0,"import discord
+from discord.ext import commands
+from discord import app_commands
+import sqlite3
+import logging
+import os
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+
+# Create an instance of the bot with the '!' prefix
+intents = discord.Intents.default()
+intents.message_content = True  # Enable message content for reading messages
+client = commands.Bot(command_prefix='!', intents=intents)
+
+# Database setup
+DATABASE = 'discord_bot.db'
+
+def init_db():
+    """"""Initialize the SQLite database and create necessary tables.""""""
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            user_id TEXT PRIMARY KEY,
+            vouches INTEGER DEFAULT 0
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+def add_vouch(user_id, vouch_count):
+    """"""Add vouches to a user in the database.""""""
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute(""INSERT OR IGNORE INTO users (user_id) VALUES (?)"", (user_id,))
+    c.execute(""UPDATE users SET vouches = vouches + ? WHERE user_id = ?"", (vouch_count, user_id))
+    conn.commit()
+    conn.close()
+
+def get_user_vouches(user_id):
+    """"""Retrieve the number of vouches for a user.""""""
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    c.execute(""SELECT vouches FROM users WHERE user_id = ?"", (user_id,))
+    result = c.fetchone()
+    conn.close()
+    return result[0] if result else 0
+
+def get_trader_rank(vouches):
+    """"""Determine the trader rank based on the number of vouches.""""""
+    if vouches &lt; 20:
+        return ""Class F Trader""
+    elif vouches &lt; 40:
+        return ""Class E Trader""
+    elif vouches &lt; 60:
+        return ""Class D Trader""
+    elif vouches &lt; 80:
+        return ""Class C Trader""
+    elif vouches &lt; 100:
+        return ""Class B Trader""
+    elif vouches &lt; 150:
+        return ""Class A Trader""
+    elif vouches &lt; 500:
+        return ""Class S Trader""
+    elif vouches &lt; 1000:
+        return ""Class SS Trader""
+    else:
+        return ""Class SSS Trader""
+
+# Slash Command: Add Vouch (Admin Only)
+@client.tree.command(name=""addvouch"")
+@app_commands.describe(member=""User  to add vouches to"", vouch_count=""Number of vouches to add"")
+@commands.cooldown(1, 10, commands.BucketType.user)  # 10 seconds cooldown
+async def addvouch(interaction: discord.Interaction, member: discord.Member, vouch_count: int):
+    """"""Add vouches to a user (admin only).""""""
+    try:
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.response.send_message(""You don't have permission to use this command."", ephemeral=True)
+            return
+
+        if vouch_count &lt;= 0:
+            await interaction.response.send_message(""Vouch count must be a positive number."", ephemeral=True)
+            return
+
+        add_vouch(str(member.id), vouch_count)
+
+        total_vouches = get_user_vouches(str(member.id))
+        rank = get_trader_rank(total_vouches)
+
+        embed = discord.Embed(
+            title=""Vouch Added!"",
+            description=f""Added {vouch_count} vouches to {member.mention}.\nTotal: {total_vouches} vouches.\nRank: {rank}"",
+            color=0x00FFC8
+        )
+
+        await interaction.response.send_message(embed=embed)
+    except commands.CommandOnCooldown as e:
+        remaining_time = round(e.retry_after, 1)
+        await interaction.response.send_message(f""Please wait {remaining_time} seconds before using this command again."", ephemeral=True)
+    except Exception as e:
+        logging.error(f""Error in addvouch command: {e}"")
+        await interaction.response.send_message(f""An error occurred: {str(e)}"", ephemeral=True)
+
+# Slash Command: Vouch (For user trade/feedback)
+@client.tree.command(name=""vouch"")
+@app_commands.describe(member=""User  to vouch for"", item=""Item being offered (optional)"", item_for=""Item being received (optional)"")
+@commands.cooldown(1, 10, commands.BucketType.user)  # 10 seconds cooldown
+async def vouch(interaction: discord.Interaction, member: discord.Member, item: str = None, item_for: str = None):
+    """"""Vouch for another user and log the trade.""""""
+    try:
+        # Prevent self-vouching
+        if interaction.user.id == member.id:
+            await interaction.response.send_message(""You cannot vouch for yourself."", ephemeral=True)
+            return
+
+        add_vouch(str(member.id), 1)  # Add 1 vouch for the member
+
+        total_vouches = get_user_vouches(str(member.id))
+        rank = get_trader_rank(total_vouches)
+
+        if item and item_for:
+            trade_message = f""{interaction.user.mention} successfully vouched for {member.mention}\n\nTrades: {item} for my {item_for}\n\n{member.mention} Vouch Rank: {rank} 📜""
+        elif item:
+            trade_message = f""{interaction.user.mention} successfully vouched for {member.mention}\n\nTrades: {item}\n\n{member.mention} Vouch Rank: {rank} 📜""
+        elif item_for:
+            trade_message = f""{interaction.user.mention} successfully vouched for {member.mention}\n\nTrades: for my {item_for}\n\n{member.mention} Vouch Rank: {rank} 📜""
+        else:
+            trade_message = f""{interaction.user.mention} successfully vouched for {member.mention}\n\nNo items were mentioned.\n\n{member.mention} Vouch Rank: {rank} 📜""
+
+        embed = discord.Embed(
+            title=""Successful Trade!"",
+            description=trade_message,
+            color=0x00FFC8
+        )
+
+        log_channel = client.get_channel(1352038234108203110)  # Replace with your actual log channel ID
+        if log_channel:
+            await log_channel.send(embed=embed)
+
+        await interaction.response.send_message(embed=embed)
+    except commands.CommandOnCooldown as e:
+        remaining_time = round(e.retry_after, 1)
+        await interaction.response.send_message(f""Please wait {remaining_time} seconds before using this command again."", ephemeral=True)
+    except Exception as e:
+        logging.error(f""Error in vouch command: {e}"")
+        await interaction.response.send_message(f""An error occurred: {str(e)}"", ephemeral=True)
+
+# Slash Command: Check User Vouches
+@client.tree.command(name=""uservouches"")
+@app_commands.describe(member=""User  to check vouches for"")
+@commands.cooldown(1, 10, commands.BucketType.user)  # 10 seconds cooldown
+async def uservouches(interaction: discord.Interaction, member: discord.Member):
+    """"""Check the total number of vouches and rank for a user.""""""
+    try:
+        total_vouches = get_user_vouches(str(member.id))
+        rank = get_trader_rank(total_vouches)
+
+        embed = discord.Embed(
+            title=""User  Vouches"",
+            description=f""{member.mention} has {total_vouches} vouches.\nRank: {rank}."",
+            color=0x00FFC8
+        )
+        await interaction.response.send_message(embed=embed)
+    except commands.CommandOnCooldown as e:
+        remaining_time = round(e.retry_after, 1)
+        await interaction.response.send_message(f""Please wait {remaining_time} seconds before using this command again."", ephemeral=True)
+    except Exception as e:
+        logging.error(f""Error in uservouches command: {e}"")
+        await interaction.response.send_message(f""An error occurred: {str(e)}"", ephemeral=True)
+
+# Sync slash commands when the bot is ready
+@client.event
+async def on_ready():
+    print(f'Logged in as {client.user}')  # Log when the bot is ready
+    await client.tree.sync()  # Sync slash commands with Discord
+    print(""Slash commands synced successfully."")
+
+# Run the bot with your token (replace with your actual token",'Neutro'
+t3_1je98cv,Python,t3,Python Quirks I Secretly Like,88,"Hi there,
+
+I’ve always wanted to create YouTube content about programming languages, but I’ve been self-conscious about my voice (and mic, lol). Recently, I made a pilot video on the Zig programming language, and afterward, I met a friend here on Reddit, u/tokisuno, who has a great voice and offered to do the voiceovers.
+
+So, we’ve put together a video on Python — I hope you’ll like it:
+
+[https://www.youtube.com/watch?v=DZtdkZV6hYM](https://www.youtube.com/watch?v=DZtdkZV6hYM)",Positivo
+t3_1jeskjr,Python,t3,PowerShellPython - Bolster Python building and installing and in general,4,"(since bots keep flagging post for false positives this will be dull and brief)
+
+  
+What is it? - A subprocess .py wrapper that invokes PowerShell in the background to accomplish installs building tasks that cmd can't, works automatically
+
+  
+Requirements - none, this is drop in and play as easy as copy and paste, or a prebuilt if you like, theoretically compatible with most if not all python, if not, it was built on 3.10.6
+
+  
+Whose it for? - everyone, but particularly those on windows who are installing flash-attn or xformeres and are having context length or other cmd limitations. 
+
+  
+Comparison - None that i can think of only other method is to VM. Whole OS vs. copy paste solution
+
+  
+Install options: copy and paste in your current subprocess or grab a prebuilt (3.10.6)
+
+
+
+**PowerShellPython Repo:**
+
+[https://github.com/leomaxwell973/PowerShellPython](https://github.com/leomaxwell973/PowerShellPython)",Neutro
+t3_1jeqqhw,Python,t3,A Task classification and Target extraction tool using spacy and FAISS,5,"Hello all ,,, I have been trying to work on a project to shrink the bridge between ML and the non tech peeps around us by making a simple yet complex project which extracts the target variable for a given prompt by the user , also it tells which type of task the problem statement or the prompt asks for , for the given dataset 
+I am thinking of making it into a full fledged web app 
+
+One use case which I thought would be to use this tool with an autoML to fully automate the ML tasks..
+
+Was wanting to know that from the experienced people from the community how is this for a project to show in my resume and is it helpful or a good project to work upon ?
+",Neutro
+t3_1jessx4,Python,t3,Triton (V3.2.0) Windows Native Build – NVIDIA Exclusive,4,"What is it? - This is a prebuilt whl of Triton (triton-lang) version 3.2.0 for Windows+Nvidia Users/Machines.
+
+Who is it for? - Windows users with NVIDIA, this has NO AMD SUPPORT AT ALL NONE. It had to be stripped out due to overly posix code.
+
+Requirements: Win+NV obv. but also may need to consider your torch and CUDA versions and upgrading as this is a pretty recent version of triton and version gap may become an issue as it is from what ive seen very different from version 3.0.0 **PYTHON 3.10(.6?) also!**
+
+Comparison - at the time of starting, ending this project(?), and writing this, there hasn't been a windows port i can publicly find on GitHub for a year, versions 3.0.0 and i doubt the quality as well.  
+Also, none of them i've found before, few as they are, have been customized like this one, to increase the level of windows support, albeit as Triton gets more advanced these also may be requirements to get a baseline execution i feel anyway, imo.
+
+This was built fully ON Windows 4 Windows! With just MSVC C++20 and re-Coding &amp; removing AMD
+
+Also trimmed the debugger stuff off to make it portable as possible.
+
+direct pip installs available:
+
+`pip install https://github.com/leomaxwell973/Triton-3.2.0-Windows-Nvidia-Prebuilt/releases/latest/download/Triton-3.2.0-cp310-cp310-win_amd64.whl`
+
+**Repo:**
+
+[https://github.com/leomaxwell973/Triton-3.2.0-Windows-Nvidia-Prebuilt.git](https://github.com/leomaxwell973/Triton-3.2.0-Windows-Nvidia-Prebuilt.git)",Neutro
+t3_1je8yd0,Python,t3,🏆 100 Most Watched Python Talks Of 2024,37,[https://www.techtalksweekly.io/p/100-most-watched-python-talks-of](https://www.techtalksweekly.io/p/100-most-watched-python-talks-of),Neutro
+t3_1jejl4y,Python,t3,playsound3 - multi-platform library to play sounds (more reliably!),10,"**TL;DR:** Showcase of \`playsound3\` -- a lightweight, reliable Python library for playing sounds on all platforms, born from frustrations with the existing \`playsound\` library. It's here: https://github.com/sjmikler/playsound3.
+
+**Backstory**
+
+10 months ago I was working on a silly console game with my SO, teaching her Python programming (link: [console-platformer-game](https://github.com/sjmikler/console-platformer-game)) but - to my surprise - we couldn't find any small library that would play sounds without errors, being huge in dependencies, being cumbersome, etc.
+
+The recommended library for our use-case was \`playsound\` but I wasn't able to get it to work reliably. When it did actually work on my Linux PC, it wouldn't work on my SO's Windows. We tried 2 or 3 more libraries and none of them worked for us. So, obviously, the next day I forked \`playsound\` and fixed the problems I had with it.
+
+**Target Audience**
+
+10 months later, after multiple revisions and rewrites to the library, I think it deserves a shoutout. I believe \`playsound3\` might be an optimal choice for anyone looking for a simple library to play sounds reliably with (almost) no-dependencies.
+
+**What My Project Does**
+
+Hopefully it's self-explanatory from code:
+
+    from playsound3 import playsound
+    
+    # Play sounds from disk
+    playsound(""/path/to/sound/file.mp3"")
+    
+    # or play sounds from the internet.
+    playsound(""http://url/to/sound/file.mp3"")
+    
+    # You can play sounds in the background
+    sound = playsound(""/path/to/sound/file.mp3"", block=False)
+    
+    # and check if they are still playing
+    if sound.is_alive():
+        print(""Sound is still playing!"")
+    
+    # and stop them whenever you like.
+    sound.stop()
+
+**Backends**
+
+There's nothing fancy in \`playsound3\`. I think of it as a connector between Python and your system's audio libraries. But what I like especially about it (compared to \`playsound\`) is how it handles different audio backends:
+
+    from playsound3 import AVAILABLE_BACKENDS, DEFAULT_BACKEND
+    
+    print(AVAILABLE_BACKENDS)  # for example: [""gstreamer"", ""ffmpeg"", ...]
+    print(DEFAULT_BACKEND)  # for example: ""gstreamer""
+
+By executing the above, you can display all audio backend supported by `playsound3` and actually available in your system. The library will try to choose the default for you, but you can overwrite this choice manually if you want.
+
+There are 7 supported backends:
+
+* GStreamer
+* ALSA (aplay and mpg123)
+* WMPlayer
+* winmm.dll
+* AppKit
+* afplay
+* FFmpeg
+
+So - your Linux distro will probably support \`GStreamer\` right out of the box, your Windows machine should work with both \`WMPlayer\` and \`winmm.dll\` and your Mac will support \`afplay\`. Some backends, like \`AppKit\` or \`FFmpeg\`, will require a manual installation. I didn't want to enforce unnecessary dependencies, so they are entirely optional. The nice thing is that - even if you have a non-standard system - there are multiple backends that can serve as a fallback.
+
+**Audio formats**
+
+Each backend supports at minimum \`.mp3\` and \`.wav\` files, but most of them work perfectly well with \`.flac\` and probably other audio formats.
+
+**There's more...**
+
+\`playsound3\` has a decent CI testing multiple backends for Linux, Windows and macOS. You can contribute, create an issue or a PR and I will do my best to support you.
+
+**Comparison**
+
+Before posting this showcase, I did a quick search to see if something new wasn't created since I was last looking for a library like this. I found that there's \`Nava\` library but it only supports \`.wav\` for some reason. It still seems like the old \`playsound\` is still recommended in some places. Hopefully \`playsound3\` might become a more reliable alternative!
+
+* Repo: [https://github.com/sjmikler/playsound3](https://github.com/sjmikler/playsound3)
+* Install with pip: `pip install playsound3`",Positivo
+t3_1jese5y,Python,t3,🚀 PowerShellPython: Overcoming CMD’s Context Length Limits for Flash-Attn &amp; XFormers Installs!,1,"Hey r/Python! I wanted to share a project I built to tackle an annoying limitation when installing certain Python packages—especially **Flash-Attn** and **XFormers**—due to **CMD’s restrictive context length** blocking linker commands and causing failed installs.
+
+
+
+🔹 **Introducing PowerShellPython**: A small but powerful tweak to Python’s subprocess handling that passively switches to PowerShell when needed while maintaining CMD compatibility for those who prefer not to use PowerShell directly.
+
+
+
+# 🛠️ What My Project Does
+
+**- At its core, All PowerShellPython is: A subprocess .run Wrapper.**
+
+**- This is a baseline tool, an extension of the core python system.** 
+
+**- Applicable to anyone and everyone using python.**
+
+**- Despite simplicity, it provides big benefits:**
+
+✅ **Extends CMD’s context limit (\~32k characters)**, preventing linker/path-length failures on large package installs.  
+✅ **Passively runs in the background**, only engaging when necessary—especially with Ninja builds or other high-risk commands.  
+✅ **Works as a troubleshooting tool**, offering an alternative backend when CMD-related issues arise.  
+✅ **Available as a prebuilt Python package** or **drop-in replacement for** [**subprocess.py**](http://subprocess.py), upgrading your current builds **without extra imports** for better future-proofing.  
+✅ **Bonus experimental fix for setuptools issues** that can further improve Flash-Attn/XFormers installs and slightly reduce path-related errors.  
+✅ **Debug wrapper included** for anyone experiencing subprocess issues—it echoes commands being piped in for easier debugging.  
+✅ **Swappable dual subprocesses** in the prebuilt version, allowing you to rename and toggle between them without editing scripts.
+
+
+
+# 🎯 Target Audience
+
+PowerShellPython is built for developers, AI researchers, and power users who frequently deal with complex package installations, especially those requiring Flash-Attn, XFormers, and other CUDA-heavy libraries that CMD struggles to handle due to its limited context length.
+
+It’s particularly useful to:  
+✔️ Machine Learning/AI Developers – who need to Install large frameworks without CMD-related limitations.  
+✔️ Windows Users &amp; Python Devs – Who frequently run into context length errors, failing installs, and need a reliable, passive subprocess enhancement to prevent them.  
+✔️ People Debugging Python Builds – As an alternative backend for catching weird subprocess issues, avoiding CMD-specific quirks, and enabling a debug wrapper when needed.  
+✔️ Anyone Who Wants Stability – If you’ve ever had to re-run an install multiple times due to random failures, this MAY help general stabilization of subprocess calls without interfering with normal use.
+
+
+
+# 🔍 Comparison: No Real Alternatives Exist
+
+Honestly, there isn’t really anything else out there quite like PowerShellPython. Most existing solutions that attempt to **bypass CMD’s subprocess limits** tend to go **all-in with full environment overhauls**, which is completely overkill for something as simple as **""I just need this one package to install properly.""**
+
+The closest thing I can think of is:  
+🔹 **Full-on VMs &amp; WSL (Windows Subsystem for Linux)** – These create entire separate environments that can handle longer commands, but at the cost of **extra setup, resource usage, and compatibility headaches.**  
+🔹 **Pseudo-VM Containers (Docker, Conda, etc.)** – Useful for sandboxing, but **you’re now dealing with an entirely different ecosystem** just to get past a simple installation failure. They work, but **they’re heavy, bloated, and can introduce new issues.**  
+🔹 **Registry Hacks &amp; System-Wide Changes** – Some people go as far as modifying Windows registry or patching system variables to **expand path length limits**, but that’s risky and **only solves part of the problem** (it doesn’t help with command-line context length issues).
+
+
+
+# So Why Use PowerShellPython Instead?
+
+✔️ **Instant Setup** – It’s literally just a **drop-in replacement for** [**subprocess.py**](http://subprocess.py), meaning **you don’t need to install anything massive** or risk system-wide instability.  
+✔️ **Low Risk, High Reward** – If something goes wrong? **Delete the file, revert** [**subprocess.py**](http://subprocess.py)**, and you’re back to default Python.** No breaking the OS, no spending hours undoing VM settings.  
+✔️ **No Extra Bloat** – It doesn’t force you into a new shell, doesn’t demand you keep an always-running virtual machine, and doesn’t flood your system with unnecessary changes.  
+✔️ **Focused on Install Fixes** – Instead of a **full environment overhaul**, this **selectively improves critical subprocess calls**, particularly for **Flash-Attn, XFormers, and Ninja installs**, which suffer from CMD’s limitations.  
+✔️ **Just Works™** – Once installed, it passively fixes things **without forcing you to change your workflow**. **Most of the time, you’ll forget it’s even there—until it saves you from an install headache.**
+
+  
+
+
+# 📌 Installation &amp; Compatibility
+
+* Works **out-of-the-box** with **Python 3.10.6** (broader compatibility expected but not fully tested yet).
+* Designed to **minimally impact** routine operations—only catching processes likely to fail due to context length.
+* No **forced PowerShell dependency**—if you prefer CMD, it respects that.
+
+Personally, I’ve been using PowerShellPython for months and often forget it’s even there. Every time I check, it’s just silently hardening subprocess calls and **enhancing Python’s ability to handle complex installs.**
+
+Would love to hear thoughts from the community! If anyone wants to try it out or contribute to compatibility testing, the source and prebuilt versions are available here: [leomaxwell973/PowerShellPython](https://github.com/leomaxwell973/PowerShellPython). 🚀",'Positivo'
+t3_1jec1ag,Python,t3,Sprite Toolz - Sprite sheet manipulation tool suite,7,"**Sprite Toolz** provides a comprehensive set of features for working with sprite sheets, including frame manipulation, batch processing, and animation export. (Open source project)
+
+[https://github.com/non-npc/Sprite-Toolz](https://github.com/non-npc/Sprite-Toolz)",Neutro
+t3_1jevd6v,Python,t3,Project] OrChat: A CLI tool for chatting with AI models through OpenRouter,0,"I've just released **OrChat**, a powerful CLI tool that lets you chat with any AI model available on OpenRouter directly from your terminal.
+
+## What My Project Does
+OrChat is a terminal-based interface for interacting with various AI models through OpenRouter's API. It features:
+- 📊 **Advanced token counter** for both input and output - perfect for prompt engineering practice
+- 🎛️ **Dynamic temperature adjustment** to fine-tune model creativity on the fly
+- 🖼️ **Multimodal support** for sharing images and files with compatible models
+- 🧠 **Smart thinking mode** to see the AI's reasoning process
+- 🎨 **Rich markdown rendering** in the terminal (code blocks, tables, etc.)
+- 🔌 **Plugin system** for extending functionality
+- 💾 **Multiple export formats** (MD, HTML, JSON, TXT, PDF)
+
+Here's what it looks like in action:
+![OrChat screenshot](https://github.com/user-attachments/assets/b74094e2-dbeb-4707-a5dd-8b5f312bf997)
+
+## Target Audience
+This tool is designed for:
+- Developers and prompt engineers who need precise token counting and model output testing
+- Users who prefer a lightweight, distraction-free terminal interface over web apps
+- Anyone who needs to test prompts across different AI models without switching interfaces
+- People who want a customizable interface that can be extended with plugins
+- Users looking for a fast, efficient way to interact with AI without the overhead of web browsers
+
+## Comparison
+Unlike existing alternatives, OrChat:
+- Focuses specifically on the terminal experience with rich markdown rendering, unlike web-based interfaces
+- Provides real-time token counting for both input and output, which many interfaces lack
+- Offers dynamic temperature adjustment during conversations, a feature missing in most clients
+- Supports a plugin system that makes it more extensible than standard OpenAI clients
+- Combines multimodal capabilities with terminal efficiency, unlike most CLI tools that sacrifice features for simplicity
+- Offers multiple export formats in one interface, where other tools typically support only one or two formats
+
+## Getting Started
+```bash
+pip install orchat
+orchat --setup
+```
+
+The setup wizard will guide you through connecting your OpenRouter API key and selecting your preferred model.
+
+## Practical Uses
+- **Prompt engineering practice** with precise token counting
+- **Temperature experimentation** to optimize model outputs
+- Quick prototyping and ideation
+- Code assistance with syntax highlighting
+- Document analysis by attaching files
+- Testing prompts across different models
+- Saving conversations in various formats
+
+The plugin system makes it easy to extend functionality - I've already added a few helpful plugins and am working on more.
+
+Check out the [GitHub repo](https://github.com/oop7/OrChat) for full documentation and let me know what you think! I'm actively looking for feedback and feature suggestions.
+
+**GitHub:** https://github.com/oop7/OrChat",Positivo
+t3_1jejwwv,Python,t3,Wednesday Daily Thread: Beginner questions,2,"# Weekly Thread: Beginner Questions 🐍
+
+Welcome to our Beginner Questions thread! Whether you're new to Python or just looking to clarify some basics, this is the thread for you.
+
+## How it Works:
+
+1. **Ask Anything**: Feel free to ask any Python-related question. There are no bad questions here!
+2. **Community Support**: Get answers and advice from the community.
+3. **Resource Sharing**: Discover tutorials, articles, and beginner-friendly resources.
+
+## Guidelines:
+
+* This thread is specifically for **beginner questions**. For more advanced queries, check out our [Advanced Questions Thread](#advanced-questions-thread-link).
+
+## Recommended Resources:
+
+* If you don't receive a response, consider exploring r/LearnPython or join the [Python Discord Server](https://discord.gg/python) for quicker assistance.
+
+## Example Questions:
+
+1. **What is the difference between a list and a tuple?**
+2. **How do I read a CSV file in Python?**
+3. **What are Python decorators and how do I use them?**
+4. **How do I install a Python package using pip?**
+5. **What is a virtual environment and why should I use one?**
+
+Let's help each other learn Python! 🌟",Positivo
+t3_1je59p9,Python,t3,I made the easiest (literally)  magic-link auth library. Works in Almost Any Python Web Framework.,9,"## What My Project Does
+
+Haze is a high-performance magic link authentication library for Python that makes it dead simple to implement passwordless authentication in your web applications. With Haze, you can:
+
+- Generate secure, JWT-based magic links for user authentication
+- Handle token verification and management with minimal code
+- Integrate with any Python web framework (Flask, FastAPI, Django, etc.)
+- Store tokens in any database through a simple interface
+
+Here's how easy it is to use Haze:
+
+```python
+from haze import haze
+import secrets
+
+# Setup with a single line
+haze.use(base_url=""https://myapp.com"", secret_key=secrets.token_urlsafe(32))
+
+# Define where to store tokens
+@haze.storage
+def store_token(token_id, data=None):
+    if data is None:
+        return token_store.get(token_id)
+    token_store[token_id] = data
+    return data
+
+# Generate a magic link - that's it!
+link = haze.generate(""user123"", metadata={""name"": ""John""})
+# =&gt; https://myapp.com/auth/verify?token_id=abc123&amp;signature=eyJhbGciOiJIUzI1NiIsInR5...
+
+# Verification is just as simple
+@app.route(""/auth/verify"")
+def verify():
+    user_data = haze.verify(
+        request.args.get(""token_id""), 
+        request.args.get(""signature"")
+    )
+    # You're authenticated! Do stuff with user_data[""user_id""]
+```
+
+## Target Audience
+
+Haze is designed for:
+
+- **Python developers** building web applications who want a modern authentication solution
+- **Production environments** requiring secure, reliable user authentication
+- **Projects of all sizes** from small side projects to enterprise applications
+- **Developers who value simplicity** but need robust security features
+
+The library is production-ready (alpha stage but will be okay for mid-tier apps) with comprehensive security features including one-time use tokens, rate limiting, and support for asymmetric cryptography. It's particularly well-suited for applications where you want to eliminate password-based authentication entirely.
+
+## Comparison
+
+While there are several authentication libraries in the Python ecosystem, Haze differentiates itself in several key ways:
+
+| Feature | Haze | Traditional Auth Libraries | Other Magic Link Solutions |
+|---------|------|---------------------------|----------------------------|
+| **Setup Complexity** | Minimal (5-10 lines) | Often requires significant boilerplate | Usually requires email setup upfront |
+| **Framework Independence** | Works with any framework | Often tied to specific frameworks | Mixed compatibility |
+| **Storage Backend** | Pluggable with any database | Often tied to specific ORMs | Usually limited options |
+| **JWT Algorithms** | Multiple algorithms (HS256, RS256, ES256) | Varies | Limited options |
+| **API Style** | Modern, Neovim-like configuration | Often class-based or decorator-heavy | Varies |
+| **Dependencies** | Minimal core, optional extras | Often heavyweight | Varies |
+
+Unlike libraries like Flask-Login or Django's built-in auth that are designed around password-based authentication with magic links as an add-on, Haze is built from the ground up for passwordless authentication.
+
+Compared to dedicated magic link services like Magic.link or proprietary solutions, Haze gives you:
+- Complete control over your authentication flow
+- No third-party dependencies for your auth system
+- No monthly subscription fees
+- The ability to customize every aspect of the authentication process
+
+Haze's design philosophy prioritizes both simplicity and flexibility—you can get started with just a few lines of code, but you can also customize nearly every aspect of the system when needed.
+
+---
+
+Check out the full project on GitHub: [github.com/itsmeadarsh2008/haze](https://github.com/itsmeadarsh2008/haze)",Positivo

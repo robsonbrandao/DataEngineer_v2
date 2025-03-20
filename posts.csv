@@ -1,0 +1,482 @@
+id,subreddit,kind,title,score,selftext,sentimento
+t3_1iqf81z,Python,t3,Sunday Daily Thread: What's everyone working on this week?,7,"# Weekly Thread: What's Everyone Working On This Week? 🛠️
+
+Hello /r/Python! It's time to share what you've been working on! Whether it's a work-in-progress, a completed masterpiece, or just a rough idea, let us know what you're up to!
+
+## How it Works:
+
+1. **Show &amp; Tell**: Share your current projects, completed works, or future ideas.
+2. **Discuss**: Get feedback, find collaborators, or just chat about your project.
+3. **Inspire**: Your project might inspire someone else, just as you might get inspired here.
+
+## Guidelines:
+
+* Feel free to include as many details as you'd like. Code snippets, screenshots, and links are all welcome.
+* Whether it's your job, your hobby, or your passion project, all Python-related work is welcome here.
+
+## Example Shares:
+
+1. **Machine Learning Model**: Working on a ML model to predict stock prices. Just cracked a 90% accuracy rate!
+2. **Web Scraping**: Built a script to scrape and analyze news articles. It's helped me understand media bias better.
+3. **Automation**: Automated my home lighting with Python and Raspberry Pi. My life has never been easier!
+
+Let's build and grow together! Share your journey and learn from others. Happy coding! 🌟",Positivo
+t3_1iudeoy,Python,t3,Friday Daily Thread: r/Python Meta and Free-Talk Fridays,1,"# Weekly Thread: Meta Discussions and Free Talk Friday 🎙️
+
+Welcome to Free Talk Friday on /r/Python! This is the place to discuss the r/Python community (meta discussions), Python news, projects, or anything else Python-related!
+
+## How it Works:
+
+1. **Open Mic**: Share your thoughts, questions, or anything you'd like related to Python or the community.
+2. **Community Pulse**: Discuss what you feel is working well or what could be improved in the /r/python community.
+3. **News &amp; Updates**: Keep up-to-date with the latest in Python and share any news you find interesting.
+
+## Guidelines:
+
+* All topics should be related to Python or the /r/python community.
+* Be respectful and follow Reddit's [Code of Conduct](https://www.redditinc.com/policies/content-policy).
+
+## Example Topics:
+
+1. **New Python Release**: What do you think about the new features in Python 3.11?
+2. **Community Events**: Any Python meetups or webinars coming up?
+3. **Learning Resources**: Found a great Python tutorial? Share it here!
+4. **Job Market**: How has Python impacted your career?
+5. **Hot Takes**: Got a controversial Python opinion? Let's hear it!
+6. **Community Ideas**: Something you'd like to see us do? tell us.
+
+Let's keep the conversation going. Happy discussing! 🌟",Positivo
+t3_1iume26,Python,t3,Appreciation post for PyCharm,68,"I spent the entire day today working on some complex ETL. So many hours spent building, testing, fine-tuning. Once I got it working I was updating the built in sphinx documentation, running the ‘make html’ command several times in the terminal. Turns out I had at one point in this active terminal, done a ‘git reset —hard’ command. While pressing up to cycle through commands, I accidentally ran git reset hard. All my work for the entire day was GONE. I have f’d up at work before, but never this bad. I was mortified.
+
+I had a moment of panic, and then asked chatGPT if there was any way to recover. The git log options it gave did not work. I then asked if PyCharm had any solutions for this. THERE IS A LOCAL HISTORY FEATURE THAT SAVED ME. It saves your changes and I was able to recover it all. Thank you to JetBrains for this amazing product. Four years with this product and I’m still learning about amazing features like this. ",Positivo
+t3_1itzac1,Python,t3,What the hell is going on with type hinting these days,342,"When I first learned python back in versions 3.6 and 3.7 I regarded type hinting as a purely styling feature.  It was well rooted in my mind that python code with or without type hinting will run the same and it is used only for readability -- basically just us developers being kind to each other.
+
+Nowadays more and more packages are using type hinting for core functions. SQLAlchemy is using it to declare SQL column types (Mapped), FastAPI + Pydantic is using it for HTTP payloads and auto-documentation, and dataclasses uses it to construct (shockingly) data classes.
+
+Don't get me wrong, I'm supportive of type hinting\\annotations. I'm also well aware that all of these packages will execute just fine without it. But maybe it's fair to say that in modern python applications type hinting is a core feature and not just for styling and garnishing.
+
+Edit: I actually find type annotations very useful, I'm not against it. I wanted to discuss whether it's really ""optional"" due to its widespread integration in libraries. I like u/all4Nature point: I'm thinking on it from a software engineer prespective, data analysts will probably disagree that type hinting is as widespread as I thought.",Neutro
+t3_1iumszd,Python,t3,Do you find good uses for Golang as Python developer,7,"Hi everybody, 
+
+I'm a Python dev working in data enginieering, SW and infrastructure. I'd like to learn Go to have a compiled language in my arsenal, but I rarely find cases where the downside of introducing another language to a code base or team would be outweighed by something Go offers over Python. 
+
+My mental model goes something like this: When faced with for-loops, look for either a compiled language, or use packages that are an API to compiled code in the background. The latter case usually has the bases covered. Distribution was a motivator for me in the past, but less so since solutions like UV came around.
+
+I'd invite others here to share if they had some good applications for introducing Go as a Python dev. (or other compiled languages that could fill a similar role)",Neutro
+t3_1itu5mn,Python,t3,"Happy Birthday, Python! 🎉🐍",322,"Guido van Rossum began working on Python language in the late 1980s as a successor to the ABC programming language. The first version, Python 0.9.0, was released on this day, February 20, 1991. ",Neutro
+t3_1iuni1r,Python,t3,What's new in the Polars ecosystem in the last few months ?,2,See here : [https://github.com/ddotta/awesome-polars/releases/tag/2025-02-21](https://github.com/ddotta/awesome-polars/releases/tag/2025-02-21),Neutro
+t3_1iun2qh,Python,t3,Python arp scanner,3,"Phanton is a Python project I have been working on for a while, sort of a research little thingy to understand deeper the ARP protocol and go beyond just using other people tools. Reinventing the wheel? not really just trying to understand what I have running in my local network. So far I have only got some PoC small thing that provides some useful data in order to have a 'clear' picture of what devices and present around where I connect. Work in progress is to understand and report the traffic that these devices are producing. It runs on Maos and Linux so far, for the first I added a C extension that does sequential scanning (slow but pretty accurate). I'd love to have feedbacks and improvement propasa! Very opened to contributions! Happy coding :)
+
+[https://github.com/CyberRoute/phantom/](https://github.com/CyberRoute/phantom/)",Positivo
+t3_1iudwva,Python,t3,In 2025 will there be a viable freelance market for Python developers other than Fiver or UpWork,16,"Posted this question a few weeks ago but I guess it was on the wrong day.  Since it free text Friday I will try again.
+
+Are companies looking for freelance Python developers for hourly or statement of work, fixed price scripting work from places other than Upwork or Fiver or similar sites?",Neutro
+t3_1iuf3yp,Python,t3,PAR Infinite Minesweeper TUI v0.2.10 released,10,"# What My project Does:
+
+Play a game of minesweeper with infinite board size in your terminal!
+
+# Whats New:
+
+# v0.2.10
+
+* Update package metadata
+
+# v0.2.9
+
+* Initial Release
+
+# Key Features:
+
+* Infinite board size
+* Local high scores
+* Auto saves and can be resumed
+
+# GitHub and PyPI
+
+* Check out the project on GitHub or for full documentation, installation instructions, and to contribute: [https://github.com/paulrobello/par\_infini\_sweeper](https://github.com/paulrobello/par_infini_sweeper)
+* PyPI [https://pypi.org/project/par\_infini\_sweeper/](https://pypi.org/project/par_infini_sweeper/)
+
+# Comparison:
+
+While there are a few minesweeper TUIs out there I have not found any infinite board versions.
+
+# Target Audience
+
+Anybody that loves minesweeper and terminals",Neutro
+t3_1iuimuc,Python,t3,Any collaborative online IDEs for class,7,"Are there any free or fairly priced collaborative online IDEs? I'm teaching Python in high school and we're getting capped on the amount of printouts we can make so I need some place where the students can view the code and make their own either on a different IDE or online in the same IDE that I used. I prefer free if possible as the school is hamfisted with their budget but if it's moderately priced then maybe I can convince them to allocate some funds.
+
+Replit was a choice but before the last semester was about to start Replit greatly limited the free version to where it wasn't useable for my students or class. I'm not sure of its limitations now if they changed their policy. 
+
+I usually have students use online-python.com to practice but sharing the code has become a hurdle as some of the students only have tablets instead of laptops and it doesn't have a collaborative option.
+
+Any suggestions would be welcomed.",Neutro
+t3_1iuizhk,Python,t3,Enforcing Access Control in AI Agents with PydanticAI,3,"AI agents are increasingly integrated into applications, but implementing access control remains a challenge. Unlike traditional applications, AI systems require security measures that go beyond user authentication. They need safeguards at multiple levels—controlling inputs, restricting access to sensitive data, securing external system interactions, and validating responses before they reach users.
+
+**PydanticAI** provides a structured way to enforce these controls by integrating validation and security into the AI agent’s workflow. It allows developers to:
+
+* **Filter inputs** before they reach the AI model, ensuring only authorized prompts are processed.
+* **Restrict access** to sensitive data based on user permissions.
+* **Control external interactions,** limiting which APIs and third-party systems the AI can access.
+* **Validate responses** before they are delivered to users, ensuring compliance and preventing data leaks.
+
+This approach integrates access control directly into the AI agent’s logic, reducing the need for ad-hoc security measures. The article explores how PydanticAI supports this structured validation and demonstrates its implementation using a **Four-Perimeter Framework** for securing AI deployments: [https://www.permit.io/blog/ai-agents-access-control-with-pydantic-ai](https://www.permit.io/blog/ai-agents-access-control-with-pydantic-ai)",Neutro
+t3_1itzsnz,Python,t3,My Ever-Expanding Python &amp; Django Notes,39,"Hey everyone! 👋
+
+I wanted to share a project I've been working on: [**Code-Memo**](https://mouhamaddev.github.io/Code-Memo/) – a personal collection of coding notes. This is NOT a structured learning resource or a tutorial site but more of a **living reference** where I document everything I know (and continue to learn) about Python, Django, Linux, AWS, and more.
+
+Some pages:  
+📌 [**Python Notes**](http://mouhamaddev.github.io/Code-Memo/python.html)  
+📌 [**Django Notes**](http://mouhamaddev.github.io/Code-Memo/django.html)
+
+The goal is simple: **collect knowledge, organize it, and keep expanding.** It will never be ""finished"" because I’m always adding new things as I go. If you're a Python/Django developer, you might find something useful in there—or even better, you might have suggestions for things to add!
+
+Would love to hear your thoughts.",Positivo
+t3_1iu4nzo,Python,t3,Currency classes for Python,13,"# [Monepy](https://github.com/vsbits/monepy)
+
+A python package that implements currency classes to work with monetary values.
+
+# Target audience
+
+I created it mostly for some data analysis tasks I usually do, and also as way to learn about project structure, documentation, github actions and how to publish packages.
+
+I wouldn't know if it's production ready.
+
+# Comparison
+
+After starting it I found about [py-moneyed](https://github.com/py-moneyed/py-moneyed). They are quite similar, but I wanted something that looks ""cleaner"" when using it.
+
+Any feedback will be appreciated.",Neutro
+t3_1iu95zq,Python,t3,thoughts on hatch?,7,hey everyone! saw a post here yesterday extolling uv as the best all in one tool for basically everything python.. having familiarised myself with it I came across [hatch](hatch.pypa.io/latest). is anyone familiar with it? can either of these replace Makefiles?,Neutro
+t3_1it29oi,Python,t3,logging.getLevelName(): Are you serious?,241,"I was looking for a function that would return the numerical value of a loglevel given as text. But I found only the reverse function per the [documentation](https://docs.python.org/3/library/logging.html):
+
+&gt;logging.getLevelName(*level*) Returns the textual or numeric representation of logging level *level*.
+
+That's exactly the reverse of what I need. But wait, there's more:
+
+&gt;The *level* parameter also accepts a string representation of the level such as ‘INFO’. In such cases, this functions returns the corresponding numeric value of the level.
+
+So a function that maps integers to strings, with a name that clearly implies that it returns strings, also can map strings to integers if you pass in a string. A function whose return type depends on the input type, neat!
+
+OK, so what happens when you pass in a value that has no number / name associated with it? Surely the function will return zero or raise a KeyError. But no:
+
+&gt;If no matching numeric or string value is passed in, the string ‘Level %s’ % level is returned.
+
+Fantastic! If I pass a string into a function called ""get..Name()"" it will return an integer on success and a string on failure!
+
+But somebody, at some point, a sane person noticed that this is a mess:
+
+&gt;Changed in version 3.4: In Python versions earlier than 3.4, this function could also be passed a text level, and would return the corresponding numeric value of the level. This undocumented behaviour was considered a mistake, and was removed in Python 3.4, but reinstated in 3.4.2 due to retain backward compatibility.
+
+OK, nice. But why on Earth didn't the people who reinstated the original functionality also add a function getLevelNumber()?
+
+Yes, I did see this:
+
+&gt;logging.getLevelNamesMapping()
+
+&gt;Returns a mapping from level names to their corresponding logging levels. For example, the string “CRITICAL” maps to [`CRITICAL`](https://docs.python.org/3/library/logging.html#logging.CRITICAL). The returned mapping is copied from an internal mapping on each call to this function.
+
+&gt;Added in version 3.11.
+
+OK, that's usable. But it also convoluted. Why do I need to get a whole deep copy of a mapping when the library could simply expose a getter function?
+
+All of this can be worked around with a couple of lines of code. None of it is performance critical. I'm just puzzled by the fact that somebody thought this was good interface. Ex-VBA programmer maybe?
+
+**\[EDIT\]**
+
+Since many people suggested the `getattr(logging, 'INFO')` method: I didn't mention that I fell into this rabbit hole after declaring a custom loglevel whose name I wanted to use in another module.",Negativo
+t3_1itbo0s,Python,t3,PyStructType 0.2.0 - Auto-magically create python classes to interface with c structs!,40,"GitHub: [https://github.com/fchorney/pystructtype](https://github.com/fchorney/pystructtype)
+
+**What My Project Does**
+
+PyStructType is a package that nobody asked for (except me) that will let you leverage the Typing system to define C Structs in python as a ""StructDataclass"" and have it auto-magically create the struct encode/decode format.
+
+The encode/decode functions are able to be extended to do all sorts of fun stuff that allows you to store the data in other ways than just ints, or lists, etc.
+
+This system is also composable, such that you can nest StructDataclasses within others, to create more complex structs.
+
+**Target Audience**
+
+This package is mostly just targeted towards people that need to decode/encode structs for either C-struct interfaces, or dealing with any sort of structured data such as when working with embedded hardware.
+
+**Comparison**
+
+As  far as I'm aware, there are quite a few packaged out there that let you straight up copy and paste c-structs as strings and will convert them to classes for you, and other similar projects. 
+
+That being said, I mostly wanted to see what I could get away with, by doing weird things with the typing system.
+
+**Background**
+
+While other similar libraries exist, this fulfills some usefulness that I was looking for, for another project of mine, which is porting a C SDK into Python that interfaces with hardware, and I wanted an easy way to just port over the defined C structs into python and have something just do all the work for me.
+
+I can't really say that I'm an expert in type meta-programming, and how that all works, but this was a fun project at least, and I'll most likely be using it in my other project mentioned above going forward.
+
+There is quite a bit that I'd still like to add, and unfortunately I wasn't able to make the custom ""types"" as nice as I was hoping for, but it works (tm).
+
+I have some examples in the README, as well in a python file in the repo.
+
+If anyone has any questions, comments, wants to tell me this already exists, or that I'm using typing really incorrectly, then please have at it!",Neutro
+t3_1iuckyj,Python,t3,"The Death of SaaS, and Business Logic Agents",0,"In a [recent interview](https://www.youtube.com/watch?v=uGOLYz2pgr8&amp;t=463s), Microsoft CEO Satya Nadella predicted that:
+
+1. The Biz App System of the Future will be a thin UI over a ""bunch of biz logic"" for a database, and
+2. That ""bunch of biz logic"" will be captured and enforced by one or more ***Business Logic Agents***
+
+Nadella’s prediction is important because it acknowledges the major drawbacks of conventional development approaches. Whether for SaaS or internal apps, they are time consuming, expensive, error-prone and needlessly complex.  As Nadella states, business logic is a large proportion of these systems.
+
+His predictions got a lot (a *lot*) of criticism, mainly around concerns of entrusting corporate data to hallucination-prone AI software.  That's a completely reasonable concern.
+
+At GenAI-Logic (open source), we have been working toward this vision a long time.  Here's a brief summary of our take on Business Logic Agents, how to deal with the hallucination issue, and a Reference Implementation.
+
+# Vision for a Business Logic Agent
+
+An agent accepts a Natural Language prompt, and creates a working system: a database, an app, and an API.  Here's an sample prompt:
+
+`Create a system with customers, orders, items and products.`  
+`Include a notes field for orders.`  
+`Use case: Check Credit`  
+`1. The Customer's balance is less than the credit limit`  
+`2. The Customer's balance is the sum of the Order amount total where date shipped is null`  
+`3. The Order's amount total is the sum of the Item amount`  
+`4. The Item amount is the quantity * unit_price`  
+`5. The Item unit price is copied from the Product unit price`  
+`Use case: App Integration`  
+`1. Send the Order to Kafka topic 'order_shipping' if the date shipped is not None.`
+
+Note most of the prompt is business logic (the numbered items).  These are stated as rules, and are **declarative**, providing:
+
+* Increased quality: the rules apply across (re-used over) all relevant transactions: placing orders (balance increases), deleting orders (balance decreases), etc.
+* Simplified maintenance: rule execution is automatically ordered by system-discovered dependencies.
+
+The rules are conceptually similar to a spreadsheet, and offer similar expressive power.  The 6 rules here would replace several hundred lines of procedural Python code.
+
+# Dealing with Hallucinations
+
+While the prompt does indeed create and run a system, it's certainly a prototype; not for production.  It is designed to ""kickstart"" the project.
+
+That is, it creates a Python project you can open in your favorite IDE.  This provides for ""human in the loop"" verification, and for customization.  The actual executing project does not call GenAI; the verified rules have been ""locked down"" and subjected to normal testing.
+
+&gt;***Ed:*** concerns have been raised here.  It's a critically important topic, so we've provided [Governance Details here](https://www.genai-logic.com/publications/genai-governance).
+
+# Reference Implementation, Check it out
+
+We've provided a [Reference Implementation here](https://www.genai-logic.com/publications/reference-implementation).
+
+In addition, the software is open source, and can be [accessed here](https://www.genai-logic.com/home).",Neutro
+t3_1isv37n,Python,t3,Is UV package manager taking over?,519,"Hi!
+I am a devops engineer and notice developers talking about uv package manager.  I used it today for the first time and loved it. It seems like everyone is talking to agrees. Does anyone have and cons for us package manager?",Positivo
+t3_1iuabyo,Python,t3,PyCharm YAML issue,0,All of a sudden pycharm started acting up and showing YAML files and my other project files eg Angela Yu bootcamp stopped showing... ,Negativo
+t3_1itgesm,Python,t3,Initial alpha release: sphinx-fediverse,17,"### What it does
+
+This project enables comment sections in Sphinx-generated pages by hosting them on Mastodon servers. This not only enables comments, it also enables distribution of your projects on other platforms.
+
+### Links
+
+- [Source code](https://github.com/LivInTheLookingGlass/sphinx-fediverse)
+- [Documentation](https://oliviaappleton.com/sphinx-fediverse/) (with comments section)
+- [Post that hosts the comments](https://tech.lgbt/@LivInTheLookingGlass/114032235423688612)
+
+### Target Audience
+
+Developers, and people who write web pages using Sphinx
+
+### Comparison
+
+After a good deal of searching, I am unable to find anything that does this specifically for sphinx. Some efforts have been made to do similar things on static blogs, but the source code is often not fully public.
+
+### More Details
+
+The basic work flow is this:
+
+1. Add the directive to your page + the extension to your conf.py
+2. Upon build, it will ask you to make a post, or create one for you. ~~Long term this will be automated, but for the first release it is manual. Automating this is my next task~~
+3. The ID of this post is embedded in the page
+4. On page load, JavaScript will look for this ID, and use it to fetch comments. It recursively fetches comments from each of the replies
+5. If there is a content warning on any posts, it wraps this in a `&lt;details&gt;` tag, using the content warning for its `&lt;summary&gt;`
+
+### Next steps
+
+1. ~~Automate the creation of Mastodon posts~~ Done!
+2. Add like/boost counts to each comment + the original post
+3. Display media attachments
+4. Have a form that will either submit a comment for you, or redirect to your handle to post it
+5. Publish on PyPI
+6. Run JS through babel before publishing in future releases
+7. Add tests to the directive",Positivo
+t3_1ith6u3,Python,t3,I Built RegexRewriter – A Customizable Text Transformer Based On Regex,11,"# What it does
+
+This project enable to manipulate text based on regular expressions.
+
+Example 
+
+`""hello world"", r""^[A-Z][a-z]+ [a-z]+$"" -&gt; Hello World`
+
+# Links
+
+* [Source Code ](https://github.com/SIGMazer/RegexRewriter)
+
+# Target Audience
+
+Developers
+
+  
+**Comparison**
+
+I didn't see any library that does this, and I wanted something like it for my graduation project, so I made it!
+
+",Neutro
+t3_1iu6tih,Python,t3,Documentation chatbot &gt; Documentation?,0,"Hi guys, this is my workflow for learning a new python library:
+
+Read basic docs -&gt; Start development -&gt; Search relevant features in doc if need arises
+
+  
+I am developing a tool that can convert any online documentation to a chatbot, in my head this biggest benefits would be:
+
+1. Instantly find features for their use cases
+2. Summarize the basics of the tool.
+3. Code for them
+
+  
+Would you pay a **MONTHLY** subscription for this kind of tool ($10-$20)? Or would it **NOT** be much of an improvement than using docs as is?
+
+What would your most common prompt be?
+
+Note: This post is only a means of idea validation, not promotional by any means.",Neutro
+t3_1itkpfl,Python,t3,"Thursday Daily Thread: Python Careers, Courses, and Furthering Education!",7,"# Weekly Thread: Professional Use, Jobs, and Education 🏢
+
+Welcome to this week's discussion on Python in the professional world! This is your spot to talk about job hunting, career growth, and educational resources in Python. Please note, this thread is **not for recruitment**.
+
+---
+
+## How it Works:
+
+1. **Career Talk**: Discuss using Python in your job, or the job market for Python roles.
+2. **Education Q&amp;A**: Ask or answer questions about Python courses, certifications, and educational resources.
+3. **Workplace Chat**: Share your experiences, challenges, or success stories about using Python professionally.
+
+---
+
+## Guidelines:
+
+- This thread is **not for recruitment**. For job postings, please see r/PythonJobs or the recruitment thread in the sidebar.
+- Keep discussions relevant to Python in the professional and educational context.
+  
+---
+
+## Example Topics:
+
+1. **Career Paths**: What kinds of roles are out there for Python developers?
+2. **Certifications**: Are Python certifications worth it?
+3. **Course Recommendations**: Any good advanced Python courses to recommend?
+4. **Workplace Tools**: What Python libraries are indispensable in your professional work?
+5. **Interview Tips**: What types of Python questions are commonly asked in interviews?
+
+---
+
+Let's help each other grow in our careers and education. Happy discussing! 🌟",Neutro
+t3_1itaz7b,Python,t3,scikit-fingerprints - Python library for computing molecular fingerprints and molecular ML,10,"GitHub: [https://github.com/scikit-fingerprints/scikit-fingerprints](https://github.com/scikit-fingerprints/scikit-fingerprints)
+
+**What My Project Does**
+
+Molecular fingerprints are algorithms for vectorizing chemical molecules. Molecule (atoms &amp; bonds) goes in, feature vector goes out, ready for classification, regression, clustering, or any other ML. This basically turns a graph problem into a tabular problem. Molecular fingerprints work really well and are a staple in molecular ML, drug design, and other chemical applications of ML.
+
+Features:
+
+\- fully scikit-learn compatible, you can build full ML pipelines from parsing molecules, computing fingerprints, to training classifiers and deploying them
+
+\- 35 fingerprints, the largest number in open source Python ecosystem
+
+\- a lot of other functionalities, e.g. molecular filters, distances and similarities (working on NumPy / SciPy arrays), splitting datasets, hyperparameter tuning, and more
+
+\- based on RDKit (standard chemoinformatics library), interoperable with its entire ecosystem
+
+\- installable with [pip from PyPI](https://pypi.org/project/scikit-fingerprints/), with [documentation](https://scikit-fingerprints.github.io/scikit-fingerprints/) and [tutorials](https://scikit-fingerprints.github.io/scikit-fingerprints/examples.html), easy to get started
+
+\- well-engineered, with high test coverage, code quality tools, CI/CD, and a group of maintainers
+
+**Target Audience**
+
+Chemists, chemoinformaticians, ML researchers, and anyone interested in molecular ML. This project is production-ready, and used in research and practical pharma applications.
+
+[baybe framework](https://github.com/emdgroup/baybe) from Merck KGaA relies on scikit-fingerprints for computing molecular fingerprints. It's also used in production pipelines in pharma industry in Polish companies. We are also actively using it in research, e.g. [for peptide function prediction](https://arxiv.org/abs/2501.17901).
+
+**Comparison**
+
+Lots of closed source software - often used in chemistry, but it's crazy expensive, uses weird custom languages or even is GUI-only. scikit-fingerprints is fully open source, with permissive MIT license.
+
+RDKit - scikit-fingerprints offers scikit-learn compatibility on top of RDKit, making it easier to use for machine learning. Since we rely on RDKit underneath, you can always use it directly when needed, or modify code to your needs.
+
+scikit-mol - it has 7 fingerprints, and that's about it. scikit-fingerprints implements 35 fingerprints, distances and similarities, molecular filters, splitters, and more. Most importantly, in my opinion, we have a fully-featured documentation, hosted on GitHub Pages.
+
+MolPipeline - it is based on the custom classes for pipelines, meaning that it's not really compatible with scikit-learn. With scikit-fingerprints, you can use anything from the entire ecosystem, e.g. advanced feature processing with feature-engine.
+
+You can find many more comparisons and benchmarks in our paper, [published in SoftwareX (open access)](https://www.sciencedirect.com/science/article/pii/S2352711024003145).
+
+**A bit of background**
+
+I'm doing PhD in computer science, ML on graphs and molecules. My Master's thesis was about molecular property prediction, and I wanted molecular fingerprints as baselines for experiments. They turned out to be really great and actually outperformed other models (e.g. graph neural networks). However, using them was really inconvenient due to heavily C++ inspired RDKit library, and I think that many ML researchers omit them due to hard usage in Python. So I got a group of students, and we wrote a full library for this. This is my first Python library, so any comments or critique are very welcome. IT has been in development for about 2 years now, and now we have a full research group working on development and practical applications with scikit-fingerprints.
+
+You can also read our paper in SoftwareX (open access): [https://www.sciencedirect.com/science/article/pii/S2352711024003145](https://www.sciencedirect.com/science/article/pii/S2352711024003145).
+
+**Python experiences**
+
+I have definitely a few takeaways and opinions about developing Python libraries now:
+
+\- Python is really great, and you can be incredibly productive in it even with difficult scientific stuff
+
+\- Poetry is great and solves packaging problems really well
+
+\- I wish there were more up-to-date tutorials about properly packaging and deploying libraries to PyPI with Poetry/uv
+
+\- pre-commit hooks, ruff, etc. are a really great idea
+
+\- Sphinx is terrible and it's error messages are basically never helpful or correct
+
+**Learn more**
+
+We have full documentation, and also tutorials and examples, on [https://scikit-fingerprints.github.io/scikit-fingerprints/](https://scikit-fingerprints.github.io/scikit-fingerprints/). We also conducted molecular ML workshops using scikit-fingerprints: [https://github.com/j-adamczyk/molecular\_ml\_workshops](https://github.com/j-adamczyk/molecular_ml_workshops).
+
+I am happy to answer any questions! If you like the project, please give it a star on GitHub. We welcome contributions, pull requests, and feedback.
+
+",Positivo
+t3_1itv05x,Python,t3,Analyzing PPP Loan Fraud with Advanced Python Data Analysis,0,"GitHub Repo:
+
+https://github.com/Dicklesworthstone/ppp_loan_fraud_analysis
+
+• What My Project Does:
+
+I recently made a quite elaborate system for systematically finding suspected fraudulent loans in a giant 8.4gb CSV dump of PPP loan data using lots of interesting Python data science techniques. The entire thing is open-source, and you can easily replicate the findings, which are depressing.
+
+• Target Audience:
+Anyone interested in high performance, sophisticated data analysis in Python.
+
+• Comparison:
+I haven't seen something quite like this before.",Positivo
+t3_1it2bsg,Python,t3,Jupyter Package Manager – easy Python Package Management in JupyterLab,9,"Hey Python enthusiasts,
+
+**Jupyter Package Manager** is a JupyterLab extension designed to simplify managing Python packages directly within your notebook. With this tool, you can list, filter, install, and remove packages—all without leaving your JupyterLab environment.
+
+### What My Project Does
+
+Jupyter Package Manager provides a user-friendly GUI inside JupyterLab for managing the Python environment associated with your notebook. It integrates with pip to support the full package management workflow:
+- **List Packages:** See all installed packages.
+- **Filter Packages:** Quickly search through packages by name.
+- **Install Packages:** Add new packages directly from the notebook.
+- **Remove Packages:** Uninstall packages you no longer need.
+- **Dark Mode:** Enjoy a comfortable dark theme.
+
+Additionally, when installed as a JupyterLab extension, it will be available by default in **MLJAR Studio**—a desktop app for notebooks that I'm currently developing.
+
+### Target Audience
+
+This extension is aimed at:
+- **Data Scientists &amp; Researchers:** Streamline dependency management while focusing on analysis.
+- **Educators &amp; Beginners:** Provide an intuitive alternative to terminal commands, making package management more accessible.
+- **Regular JupyterLab Users:** Enhance your workflow by managing packages directly within the environment you already use.
+ 
+
+### Comparison
+
+While traditional methods like using the terminal, pip, or conda require manual command input for package management, Jupyter Package Manager offers a graphical, integrated solution within JupyterLab. This reduces context switching and simplifies the process—especially beneficial for beginners or users looking for a more streamlined approach.
+
+Feel free to check it out on GitHub: [mljar/package-manager](https://github.com/mljar/package-manager)
+
+Happy experimenting! :)",Positivo
